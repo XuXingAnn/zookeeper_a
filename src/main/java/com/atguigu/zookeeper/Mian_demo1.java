@@ -2,6 +2,7 @@ package com.atguigu.zookeeper;
 
 
 import org.apache.zookeeper.*;
+import org.apache.zookeeper.data.Stat;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -38,8 +39,13 @@ public class Mian_demo1 {
         System.out.println(s);
     }
 
+//    获取节点数据
     @Test
-    public void getNode(){
-
+    public void getNode() throws KeeperException, InterruptedException {
+        final byte[] data = zooKeeper.getData("/java", false, new Stat());
+        String s = new String(data);
+        System.out.println(s);
     }
+
+
 }
