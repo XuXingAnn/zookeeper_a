@@ -10,6 +10,8 @@ import org.junit.Test;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
+import static javafx.scene.input.KeyCode.W;
+
 public class Mian_demo1 {
 
 
@@ -25,6 +27,17 @@ public class Mian_demo1 {
             @Override
             public void process(WatchedEvent watchedEvent) {
                 System.out.println("Watcher");
+
+                byte[] data =null;
+                try {
+                    data = zooKeeper.getData("/java", true, new Stat());
+                } catch (KeeperException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                String s = new String(data);
+                System.out.println(s);
             }
         });
     }
@@ -46,6 +59,27 @@ public class Mian_demo1 {
         String s = new String(data);
         System.out.println(s);
     }
+
+//    获取节点数据并观测数据
+    @Test
+    public void getNodeAndWath() throws KeeperException, InterruptedException {
+        final Watcher watcher = new Watcher() {
+            @Override
+            public void process(WatchedEvent event) {
+                System.out.println(event.toString());
+            }
+        };
+        // 一次性监听  数据改变一次后就不在监听
+//        final byte[] data = zooKeeper.getData("/java", watcher, new Stat());
+
+        // 永久性监听 使用init（）函数中的监听 ，执行完毕之后再次进行监听
+        final byte[] data = zooKeeper.getData("/java", true, new Stat());
+        String s = new String(data);
+        System.out.println(s);
+        Thread.sleep(Long.MAX_VALUE);
+    }
+
+
 
 
 }
