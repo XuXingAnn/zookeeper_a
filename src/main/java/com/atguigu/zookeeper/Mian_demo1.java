@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 import static javafx.scene.input.KeyCode.W;
 
@@ -27,6 +28,15 @@ public class Mian_demo1 {
             @Override
             public void process(WatchedEvent watchedEvent) {
                 System.out.println("Watcher");
+                List<String> childrens = null;
+                try {
+                    childrens = zooKeeper.getChildren("/", true);
+                } catch (KeeperException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                System.out.println(childrens);
             }
         });
     }
@@ -77,4 +87,10 @@ public class Mian_demo1 {
         System.out.println(exist2);
     }
 
+    @Test
+    public void getPathNode() throws KeeperException, InterruptedException {
+        final List<String> childrens = zooKeeper.getChildren("/", true);
+        System.out.println(childrens);
+        Thread.sleep(Long.MAX_VALUE);
+    }
 }
