@@ -27,17 +27,6 @@ public class Mian_demo1 {
             @Override
             public void process(WatchedEvent watchedEvent) {
                 System.out.println("Watcher");
-
-                byte[] data =null;
-                try {
-                    data = zooKeeper.getData("/java", true, new Stat());
-                } catch (KeeperException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                String s = new String(data);
-                System.out.println(s);
             }
         });
     }
@@ -80,6 +69,12 @@ public class Mian_demo1 {
     }
 
 
-
+    @Test
+    public void existNode() throws KeeperException, InterruptedException {
+        final Stat exists = zooKeeper.exists("/java", false);
+        System.out.println(exists);
+        final Stat exist2 = zooKeeper.exists("/java/dddd", false);
+        System.out.println(exist2);
+    }
 
 }
